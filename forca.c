@@ -14,11 +14,11 @@ int main () {
         char chute;
         scanf("%c", &chute);
 
-        for (int i = 0 ; i < strlen(apelidos) ; i++ ){
-            if (apelidos[i] == chute) {
-                printf("A posição %d tem essa letra \n", i);
-            }
+        for (int i = 1 ; strlen(apelidos) ; i++) {
+            printf("_ ");
         }
+
+        printf("\n");
 
     } while (!acertou && !enforcou);
 }
