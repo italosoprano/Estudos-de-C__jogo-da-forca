@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include "forca.h"
 
-    char apelidos[20];
-    char chutes[26];
-    int tentativas = 0;
+char apelidos[20];
+char chutes[26];
+int chutesdados = 0;
 
 void abertura() {
     printf("***********************\n");
@@ -11,19 +12,19 @@ void abertura() {
     printf("***********************\n\n");
 }
 
-void chuta(char chutes[26], int* tentativas) {
+void chuta() {
         char chute;
         printf("Qual a letra ? ");
         scanf(" %c", &chute);
 
-        chutes[(*tentativas)] = chute;
-        (*tentativas)++;
+        chutes[chutesdados] = chute;
+        chutesdados++;
 }
 
-int jachutou(char letra, char chutes, int tentativas){
+int jachutou(char letra){
     int achou = 0;
 
-    for(int j = 0 ; j < tentativas ; j++) {
+    for(int j = 0 ; j < chutesdados ; j++) {
         if(chutes[j] == letra) {
             achou = 1;
             break;
@@ -35,7 +36,7 @@ int jachutou(char letra, char chutes, int tentativas){
 
 void desenhaforca() {
 
-    printf("Você já deu %d chutes\n", tentativas);
+    printf("Você já deu %d chutes\n", chutesdados);
 
     for(int i = 0; i < strlen(apelidos); i++) {
 
@@ -51,13 +52,42 @@ void desenhaforca() {
 }
 
 void escolhepalavra() {
-    sprintf(apelidos, "VAGABUNDO");
+    FILE* f;
+    
+    f = fopen("palavras.txt", "r");
+
+    fclose(f);
+}
+
+int acertou() {
+    for (int i = 1 ; i < strlen(apelidos) ; i++){
+        if (!jachutou(apelidos[i]))
+        return 0;
+    }
+
+    return 1;
+}
+
+int enforcou() {
+    int erros = 0;
+    
+    for(i = 0 ; i < chutesdados ; i++) {
+
+        int existe = 0;
+
+        for(j = 0 ; j < strlen(apelidos) ; j++){
+            if(chutes[i] == apelidos[j]){
+                existe = 1;
+                break;
+            }
+        }
+        if (!existe) erros++;
+    }
+
+    return erros >= 5;
 }
 
 int main () {
-
-    int acertou = 0;
-    int enforcou = 0;
 
     abertura();
     escolhepalavra();
@@ -67,7 +97,7 @@ int main () {
         desenhaforca();
         chuta();
 
-        tentativas++;
+        chutesdados++;
 
-    } while (!acertou && !enforcou);
+    } while (!acertou() && !enforcou());
 }

@@ -1,19 +1,25 @@
 #include <stdio.h>
 
-void somar(int numeros[10]) {
-    int soma = 0;
+int soma(int num[3], int tam) {
+    
+    int total;
 
-    for(int i = 0 ; i < 10 ; i++) {
-        soma += numeros[i];
+    for (int i = 0 ; i <  tam ; i++){
+        total += num[i];
     }
 
-    printf("%d \n", soma);
+    return total;
 }
 
 int main () {
-    int numeros[10] = {44,60,13,9,30,80,51,19,38,8};
+    int num[3];
+    num[0] = 2;
+    num[1] = 5;
+    num[2] = 3;
 
-    somar(numeros);
+    int total = soma(num, 3);
+
+    printf("%d", total);
 
     return 0;
 }
